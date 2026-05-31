@@ -132,6 +132,32 @@
   .day-title h2 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; }
   .day-sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
 
+  /* ── DAY SWITCHER (Workout hub) ── */
+  .day-switcher { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 20px; }
+  .day-switcher::-webkit-scrollbar { display: none; }
+  .day-pill {
+    flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
+    background: var(--card2); border: 1px solid var(--border); color: #aaa;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    padding: 9px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+    transition: all 0.18s;
+  }
+  .day-pill:hover { color: #ddd; }
+  .day-pill.d1.active { background: rgba(249,115,22,0.18); border-color: var(--d1); color: #fff; }
+  .day-pill.d2.active { background: rgba(34,197,94,0.18); border-color: var(--d2); color: #fff; }
+  .day-pill.d4.active { background: rgba(59,130,246,0.18); border-color: var(--d4); color: #fff; }
+  .day-pill.d5.active { background: rgba(168,85,247,0.18); border-color: var(--d5); color: #fff; }
+
+  .day-panel { display: none; }
+  .day-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  /* coloured header band so each day feels distinct */
+  .day-panel .day-title { border-left: 4px solid var(--border); padding: 10px 0 10px 14px; margin-bottom: 8px; }
+  .day-panel[data-day="d1"] .day-title { border-left-color: var(--d1); }
+  .day-panel[data-day="d2"] .day-title { border-left-color: var(--d2); }
+  .day-panel[data-day="d4"] .day-title { border-left-color: var(--d4); }
+  .day-panel[data-day="d5"] .day-title { border-left-color: var(--d5); }
+  .day-panel .day-sub { padding-left: 18px; }
+
   /* ── EXERCISE CARDS ── */
   .exercise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; margin-bottom: 40px; }
   .exercise-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; transition: transform 0.18s, border-color 0.18s; }
@@ -194,7 +220,7 @@
 
   /* ── NUTRITION ── */
   .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-  @media(max-width: 640px) { .nutrition-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .nutrition-grid { grid-template-columns: 1fr; } }
   .nutrition-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
   .nutrition-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 21px; letter-spacing: 1px; margin-bottom: 14px; }
   .protein-calc { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
@@ -252,7 +278,7 @@
   .footnote { color: var(--muted); font-size: 11.5px; line-height: 1.6; text-align: center; max-width: 640px; margin: 12px auto 0; padding: 16px; border-top: 1px solid var(--border); }
 
   /* ═══════════ MOBILE ═══════════ */
-  @media(max-width:620px) {
+  @media (max-width: 620px) {
     body { padding-bottom: 132px; } /* bottom nav + timer */
     header { padding: 32px 18px 22px; }
     header .stats { gap: 6px; }
@@ -297,6 +323,20 @@
     .info-card, .nutrition-card { padding: 18px; }
     .day-title h2 { font-size: 26px; }
     header h1 { letter-spacing: 2px; }
+
+    /* Workout hub: sticky day-switcher spanning full width (nav is at the bottom now) */
+    .day-switcher {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10,10,10,0.96); backdrop-filter: blur(8px);
+      margin: -22px -14px 16px; padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .day-pill { padding: 10px 16px; }
+
+    /* More breathing room so cards don't feel squashed */
+    .exercise-grid { gap: 16px; }
+    .exercise-card { padding: 22px; border-radius: 20px; }
+    .demo { height: 160px; }
   }
 </style>
 </head>
@@ -315,10 +355,7 @@
 <nav>
   <button class="active" onclick="showTab('schedule', this)"><span class="ti">📅</span><span class="tl">Schedule</span></button>
   <button onclick="showTab('warmup', this)"><span class="ti">🔆</span><span class="tl">Warm-Up</span></button>
-  <button onclick="showTab('d1', this)"><span class="ti">🔥</span><span class="tl">Push</span></button>
-  <button onclick="showTab('d2', this)"><span class="ti">💚</span><span class="tl">Lower A</span></button>
-  <button onclick="showTab('d4', this)"><span class="ti">💙</span><span class="tl">Pull</span></button>
-  <button onclick="showTab('d5', this)"><span class="ti">💜</span><span class="tl">Lower B</span></button>
+  <button onclick="showTab('workout', this)"><span class="ti">🏋️</span><span class="tl">Workout</span></button>
   <button onclick="showTab('nutrition', this)"><span class="ti">🥗</span><span class="tl">Nutrition</span></button>
   <button onclick="showTab('progress', this)"><span class="ti">📊</span><span class="tl">Progress</span></button>
 </nav>
@@ -326,11 +363,11 @@
 <!-- ═══════════════ SCHEDULE ═══════════════ -->
 <section id="schedule" class="active">
   <div class="week-grid">
-    <div class="day-chip d1" onclick="showTab('d1')"><div class="day-name">Mon</div><div class="day-icon">🔥</div><div class="day-label">PUSH</div></div>
-    <div class="day-chip d2" onclick="showTab('d2')"><div class="day-name">Tue</div><div class="day-icon">💚</div><div class="day-label">LOWER A</div></div>
+    <div class="day-chip d1" onclick="goDay('d1')"><div class="day-name">Mon</div><div class="day-icon">🔥</div><div class="day-label">PUSH</div></div>
+    <div class="day-chip d2" onclick="goDay('d2')"><div class="day-name">Tue</div><div class="day-icon">💚</div><div class="day-label">LOWER A</div></div>
     <div class="day-chip rest"><div class="day-name">Wed</div><div class="day-icon">😴</div><div class="day-label">REST</div></div>
-    <div class="day-chip d4" onclick="showTab('d4')"><div class="day-name">Thu</div><div class="day-icon">💙</div><div class="day-label">PULL</div></div>
-    <div class="day-chip d5" onclick="showTab('d5')"><div class="day-name">Fri</div><div class="day-icon">💜</div><div class="day-label">LOWER B</div></div>
+    <div class="day-chip d4" onclick="goDay('d4')"><div class="day-name">Thu</div><div class="day-icon">💙</div><div class="day-label">PULL</div></div>
+    <div class="day-chip d5" onclick="goDay('d5')"><div class="day-name">Fri</div><div class="day-icon">💜</div><div class="day-label">LOWER B</div></div>
     <div class="day-chip rest"><div class="day-name">Sat</div><div class="day-icon">🚶</div><div class="day-label">WALK</div></div>
     <div class="day-chip rest"><div class="day-name">Sun</div><div class="day-icon">😴</div><div class="day-label">REST</div></div>
   </div>
@@ -469,8 +506,16 @@
   </div>
 </section>
 
-<!-- ═══════════════ DAY 1 — PUSH ═══════════════ -->
-<section id="d1">
+<!-- ═══════════════ WORKOUT HUB (4-day switcher) ═══════════════ -->
+<section id="workout">
+  <div class="day-switcher">
+    <button class="day-pill d1 active" data-day="d1" onclick="showDay('d1', this)">🔥 Push</button>
+    <button class="day-pill d2" data-day="d2" onclick="showDay('d2', this)">💚 Lower A</button>
+    <button class="day-pill d4" data-day="d4" onclick="showDay('d4', this)">💙 Pull</button>
+    <button class="day-pill d5" data-day="d5" onclick="showDay('d5', this)">💜 Lower B</button>
+  </div>
+
+  <div class="day-panel active" data-day="d1">
   <div class="day-title"><span class="day-badge badge-d1">MON · DAY 1</span><h2>PUSH</h2></div>
   <p class="day-sub">Chest, Shoulders, Triceps — the pushing muscles. Warm up first!</p>
   <div class="exercise-grid">
@@ -656,10 +701,9 @@
     </div>
 
   </div>
-</section>
+  </div><!-- /day-panel d1 -->
 
-<!-- ═══════════════ DAY 2 — LOWER A ═══════════════ -->
-<section id="d2">
+  <div class="day-panel" data-day="d2">
   <div class="day-title"><span class="day-badge badge-d2">TUE · DAY 2</span><h2>LOWER A</h2></div>
   <p class="day-sub">Quads, Hamstrings, Glutes, Calves — your biggest muscles burn the most fat.</p>
   <div class="exercise-grid">
@@ -840,10 +884,9 @@
     </div>
 
   </div>
-</section>
+  </div><!-- /day-panel d2 -->
 
-<!-- ═══════════════ DAY 4 — PULL ═══════════════ -->
-<section id="d4">
+  <div class="day-panel" data-day="d4">
   <div class="day-title"><span class="day-badge badge-d4">THU · DAY 4</span><h2>PULL</h2></div>
   <p class="day-sub">Back, Biceps, Rear Shoulders — the pulling muscles that balance your pushing.</p>
   <div class="exercise-grid">
@@ -1030,10 +1073,9 @@
     </div>
 
   </div>
-</section>
+  </div><!-- /day-panel d4 -->
 
-<!-- ═══════════════ DAY 5 — LOWER B ═══════════════ -->
-<section id="d5">
+  <div class="day-panel" data-day="d5">
   <div class="day-title"><span class="day-badge badge-d5">FRI · DAY 5</span><h2>LOWER B + CORE</h2></div>
   <p class="day-sub">Second lower session — more glute &amp; quad focus, finished with core.</p>
   <div class="exercise-grid">
@@ -1213,7 +1255,8 @@
     </div>
 
   </div>
-</section>
+  </div><!-- /day-panel d5 -->
+</section><!-- /workout -->
 
 <!-- ═══════════════ NUTRITION ═══════════════ -->
 <section id="nutrition">
@@ -1323,12 +1366,21 @@
     document.getElementById(id).classList.add('active');
     if (btn) { btn.classList.add('active'); }
     else {
-      const map = {schedule:0, warmup:1, d1:2, d2:3, d4:4, d5:5, nutrition:6, progress:7};
+      const map = {schedule:0, warmup:1, workout:2, nutrition:3, progress:4};
       const btns = document.querySelectorAll('nav button');
       if (map[id] != null && btns[map[id]]) btns[map[id]].classList.add('active');
     }
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
+
+  // ── DAY SWITCHER (inside Workout) ──
+  function showDay(day, btn) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.toggle('active', p.dataset.day === day));
+    document.querySelectorAll('.day-pill').forEach(b => b.classList.toggle('active', b.dataset.day === day));
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+  // From the Schedule chips: jump to the Workout tab AND select that day
+  function goDay(day) { showTab('workout'); showDay(day); }
 
   // ── PROTEIN CALC ──
   function calcProtein() {
