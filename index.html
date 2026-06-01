@@ -534,32 +534,55 @@
     <div class="exercise-card d1">
       <div class="ex-head"><div><div class="exercise-name">Dumbbell Chest Press</div><div class="sets-reps">3 × 10–12 · Tempo 2-1-2</div></div><div class="ex-num">01</div></div>
       <svg class="demo" viewBox="0 0 260 150">
-        <rect x="36" y="92" width="188" height="12" rx="4" fill="#2a2a2a"/>
-        <rect x="48" y="104" width="8" height="28" rx="3" fill="#2a2a2a"/>
-        <rect x="204" y="104" width="8" height="28" rx="3" fill="#2a2a2a"/>
-        <path d="M65,76 Q63,72 70,70 L190,74 Q198,74 200,78 L200,90 Q198,92 190,92 L70,88 Q62,88 65,84 Z" fill="#3d4654"/>
-        <circle cx="204" cy="82" r="10" fill="#3d4654"/>
-        <ellipse class="muscle" cx="108" cy="78" rx="18" ry="8" fill="#f97316"/>
-        <ellipse class="muscle" cx="150" cy="78" rx="18" ry="8" fill="#f97316"/>
+        <!-- BENCH (side view) -->
+        <rect x="30" y="96" width="200" height="11" rx="5" fill="#191926"/>
+        <rect x="30" y="107" width="12" height="30" rx="3" fill="#141420"/>
+        <rect x="218" y="107" width="12" height="30" rx="3" fill="#141420"/>
+        <!-- PERSON lying on bench, head to the RIGHT -->
+        <!-- Thighs / hips (left end, above bench) -->
+        <rect x="36" y="83" width="50" height="15" rx="7" fill="#3d4654"/>
+        <!-- Lower legs / feet hanging down (bent knees) -->
+        <path d="M44,98 Q40,110 46,122 L56,122 L58,110 L54,98 Z" fill="#3d4654"/>
+        <path d="M56,98 Q52,110 58,120 L68,120 L70,110 L66,98 Z" fill="#3d4654" opacity="0.55"/>
+        <!-- Torso (wider at chest/shoulders, lying flat) -->
+        <path d="M82,81 Q90,76 108,76 L192,78 Q202,78 206,85 L206,98 Q202,102 192,100 L108,100 Q90,100 82,97 Z" fill="#3d4654"/>
+        <!-- Head + neck -->
+        <circle cx="218" cy="90" r="13" fill="#3d4654"/>
+        <rect x="205" y="86" width="16" height="12" rx="5" fill="#3d4654"/>
+        <!-- Shoulder bump (near side) -->
+        <circle cx="108" cy="81" r="10" fill="#4a5568"/>
+        <!-- PECS: upper-front of chest (glowing region) -->
+        <ellipse class="muscle" cx="142" cy="79" rx="32" ry="10" fill="#f97316"/>
+        <!-- NEAR ARM pressing dumbbell — clearly distinct shade from body -->
+        <!-- START: elbow bent, dumbbell near chest height -->
         <g class="start" stroke-linecap="round">
-          <line x1="106" y1="76" x2="86" y2="58" stroke="#3d4654" stroke-width="8"/>
-          <line x1="86" y1="58" x2="70" y2="52" stroke="#3d4654" stroke-width="7"/>
-          <rect x="56" y="47" width="26" height="9" rx="4" fill="#f97316"/>
-          <line x1="152" y1="76" x2="172" y2="58" stroke="#3d4654" stroke-width="8"/>
-          <line x1="172" y1="58" x2="188" y2="52" stroke="#3d4654" stroke-width="7"/>
-          <rect x="178" y="47" width="26" height="9" rx="4" fill="#f97316"/>
+          <line x1="108" y1="81" x2="84" y2="64" stroke="#5a6880" stroke-width="12"/>
+          <line x1="84" y1="64" x2="88" y2="46" stroke="#5a6880" stroke-width="10"/>
+          <rect x="74" y="39" width="28" height="9" rx="4" fill="#f97316"/>
         </g>
+        <!-- END: arm fully extended upward -->
         <g class="end" stroke-linecap="round">
-          <line x1="106" y1="76" x2="104" y2="42" stroke="#3d4654" stroke-width="8"/>
-          <line x1="104" y1="42" x2="100" y2="28" stroke="#3d4654" stroke-width="7"/>
-          <rect x="86" y="23" width="26" height="9" rx="4" fill="#f97316"/>
-          <line x1="152" y1="76" x2="156" y2="42" stroke="#3d4654" stroke-width="8"/>
-          <line x1="156" y1="42" x2="160" y2="28" stroke="#3d4654" stroke-width="7"/>
-          <rect x="148" y="23" width="26" height="9" rx="4" fill="#f97316"/>
+          <line x1="108" y1="81" x2="96" y2="51" stroke="#5a6880" stroke-width="12"/>
+          <line x1="96" y1="51" x2="94" y2="29" stroke="#5a6880" stroke-width="10"/>
+          <rect x="80" y="22" width="28" height="9" rx="4" fill="#f97316"/>
         </g>
-        <line x1="108" y1="74" x2="52" y2="60" stroke="#f97316" stroke-width="1" stroke-dasharray="2,2" opacity="0.7"/>
-        <text x="10" y="60" font-size="9" fill="#f97316" font-family="DM Sans" font-weight="700">PECS</text>
-        <text class="flow" x="130" y="18" font-size="17" fill="#f97316" text-anchor="middle">↕ press</text>
+        <!-- FAR ARM (behind body, reduced opacity) -->
+        <g opacity="0.38" stroke-linecap="round">
+          <g class="start">
+            <line x1="164" y1="81" x2="186" y2="64" stroke="#5a6880" stroke-width="10"/>
+            <line x1="186" y1="64" x2="182" y2="46" stroke="#5a6880" stroke-width="8"/>
+            <rect x="170" y="39" width="24" height="9" rx="4" fill="#f97316"/>
+          </g>
+          <g class="end">
+            <line x1="164" y1="81" x2="174" y2="51" stroke="#5a6880" stroke-width="10"/>
+            <line x1="174" y1="51" x2="172" y2="29" stroke="#5a6880" stroke-width="8"/>
+            <rect x="160" y="22" width="24" height="9" rx="4" fill="#f97316"/>
+          </g>
+        </g>
+        <!-- Label callout -->
+        <line x1="136" y1="75" x2="52" y2="53" stroke="#f97316" stroke-width="1" stroke-dasharray="2,2" opacity="0.7"/>
+        <text x="6" y="51" font-size="9" fill="#f97316" font-family="DM Sans" font-weight="700">PECS</text>
+        <text class="flow" x="130" y="17" font-size="17" fill="#f97316" text-anchor="middle">↕ press</text>
 </svg>
       <div class="demo-cap">Lower to chest → press straight up</div>
       <div class="meta-row"><span class="muscle-tag tag-d1">Chest</span><span class="start-weight">🏋️ <b>10 kg</b> each</span></div>
