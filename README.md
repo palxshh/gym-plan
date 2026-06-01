@@ -15,4 +15,4 @@ A mobile-first, beginner-friendly workout web app — a **4-day Upper/Lower body
 GitHub Pages via GitHub Actions (`.github/workflows/static.yml`). See `DEPLOYMENT.md`.
 
 ---
-**v0.1** — first release.
+**v0.2** — realistic muscle-map illustrations (worked muscle highlighted per exercise).
